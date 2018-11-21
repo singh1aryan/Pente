@@ -1,3 +1,4 @@
+//Yefim Shneyderman and Aryan Singh 2018
 // var dt = require('./app');
 var http = require('http');
 var url = require('url');
@@ -6,16 +7,8 @@ var formidable = require('formidable');
 // var nodemailer = require('nodemailer');
 
 //Pente board
-/*
-Pente is denoted by a double array with x axis and y axis like so:
-0  .  .  x
-.
-.
-y
- */
-*/
- */
 class Pente{
+    //initializes the 19x19 pente board with all 0's to represent blank spaces
     constructor(){
         this.board = [];
         for(let x = 0; x<19; ++x){
@@ -26,39 +19,75 @@ class Pente{
             this.board.push(row);
         }
     }
+
+    //prints to the console such that x:0 and y:0 are on top left
     printBoard() {
+        let print = "";
         for (let x = 0; x < 19; ++x) {
-            console.log(this.board[x]);
+            for (let y = 0; y < 19; ++y) {
+                print += this.board[y][x] + " ";
+            }
+            console.log(print);
+            print = "";
         }
     }
 
+    //returns the board array
     getBoard(){
         return this.board;
     }
 
+    //returns a string formatted such that x:0 and y:0 are on top left of the string
     toString(){
         let boardString = "";
+        let print = "";
         for (let x = 0; x < 19; ++x) {
-            boardString += this.board[x].toString() + "\r\n";
+            for (let y = 0; y < 19; ++y) {
+                print += this.board[y][x] + " ";
+            }
+            boardString = boardString + print + "\r\n";
+            print = "";
         }
         return boardString;
     }
 
+    //removes the specified piece from the board and leaves an empty space
+    delete(x,y){
+        this.board[x][y] = 0;
+    }
+
+    //sets the specified piece to black
     setBlack (x,y) {
         this.board[x][y] = 2;
     }
 
+    //sets the specified piece to white
     setWhite (x,y) {
         this.board[x][y] = 1;
     }
 
+    //returns the color of the specified piece
     getColor(x,y) {
         return this.board[x][y];
     }
 
+    //returns true if the two specified pieces are opposite player colors and neither is blank
+    oppositeColors(x1,y1,x2,y2){
+        if(this.getColor(x1,y1) !== 0 && this.getColor(x2,y2) !== 0 && this.getColor(x1,y1) !== this.getColor(x2,y2)){
+            return true;
+        }
+        return false;
+    }
+
+    //resets the game board to all blank
     resetBoard(){
         this.constructor();
     }
+
+    //method must be called after every move
+    //checks for winners by checking for 5 in a row
+    //checks for sandwiches and removes the centers
+    //updates the player turn information (however it is designed)
     updateBoard(){
         let hasWinner = false;
         for(let x = 0; x<19; ++x) {
@@ -66,6 +95,7 @@ class Pente{
             for (let y = 0; y < 19; ++y) {
                 if(hasWinner){break;}
                 if(this.getColor(x,y) !== 0){
+                    this.removeSandwich(x,y);
                     if (this.hasFiveInARow(x,y)) {
                         hasWinner = true;
                         console.log(this.getColor(x,y) + " wins the game!");
@@ -73,20 +103,113 @@ class Pente{
                 }
             }
         }
-
-        //check for any 5 in a row
-        //check if it is of the color
-        //count +1
-        //check if it has neighbors that are that color and repeat if it does
-        //if count gets to 5, then declare winner
-        //check for any that could be eaten eaten
     }
 
-    hasFiveInARow(x,y){
-        if(this.north(x,y,1) || this.northEast(x,y,1) || this.east(x,y,1) || this.southEast(x,y,1) || this.south(x,y,1) || this.southWest(x,y,1) || this.west(x,y,1) || this.northWest(x,y,1)){
-            return true;
+    //detects if there are any sandwiches branching off the current piece and then deletes the centers
+    removeSandwich(x,y){
+        if(this.hasSandwichNorth(x,y)){
+            this.delete(x,y-1);
+            this.delete(x,y-2);
         }
-        return false;
+        if(this.hasSandwichNorthEast(x,y)){
+            this.delete(x+1,y-1);
+            this.delete(x+2,y-2);
+        }
+        if(this.hasSandwichEast(x,y)){
+            this.delete(x+1,y);
+            this.delete(x+2,y);
+        }
+        if(this.hasSandwichSouthEast(x,y)){
+            this.delete(x+1,y+1);
+            this.delete(x+2,y+2);
+        }
+        if(this.hasSandwichSouth(x,y)){
+            this.delete(x,y+1);
+            this.delete(x,y+2);
+        }
+        if(this.hasSandwichSouthWest(x,y)){
+            this.delete(x-1,y+1);
+            this.delete(x-1,y+2);
+        }
+        if(this.hasSandwichWest(x,y)){
+            this.delete(x-1,y);
+            this.delete(x-2,y);
+        }
+        if(this.hasSandwichNorthWest(x,y)){
+            console.log("Removing sandwich");
+            this.delete(x-1,y-1);
+            this.delete(x-2,y-2);
+        }
+    }
+
+    hasSandwichNorth(x,y){
+        if(y-3 < 0){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x, y - 3) === this.getColor(x, y) && this.getColor(x, y - 2) === this.getColor(x, y - 1) && this.oppositeColors(x, y, x, y - 1);
+        //base case
+    }
+
+    hasSandwichNorthEast(x,y){
+        if(y-3 < 0 || x+3 > 18){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x + 3, y - 3) === this.getColor(x, y) && this.getColor(x + 2, y - 2) === this.getColor(x + 1, y - 1) && this.oppositeColors(x, y, x + 1, y - 1);
+        //base case
+    }
+
+    hasSandwichEast(x,y){
+        if(x+3 > 18){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x + 3, y) === this.getColor(x, y) && this.getColor(x + 2, y) === this.getColor(x + 1, y) && this.oppositeColors(x, y, x + 1, y);
+        //base case
+    }
+
+    hasSandwichSouthEast(x,y){
+        if(x+3 > 18 || y+3 > 18){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x + 3, y + 3) === this.getColor(x, y) && this.getColor(x + 2, y + 2) === this.getColor(x + 1, y + 1) && this.oppositeColors(x, y, x + 1, y + 1);
+        //base case
+    }
+
+    hasSandwichSouth(x,y){
+        if(y+3 > 18){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x, y + 3) === this.getColor(x, y) && this.getColor(x, y + 2) === this.getColor(x, y + 1) && this.oppositeColors(x, y, x, y + 1);
+        //base case
+    }
+
+    hasSandwichSouthWest(x,y){
+        if(y+3 > 18 || x-3 < 0){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x - 3, y + 3) === this.getColor(x, y) && this.getColor(x - 2, y + 2) === this.getColor(x - 1, y + 1) && this.oppositeColors(x, y, x - 1, y + 1);
+        //base case
+    }
+
+    hasSandwichWest(x,y){
+        if(x-3 < 0){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x - 3, y) === this.getColor(x, y) && this.getColor(x - 2, y) === this.getColor(x - 1, y) && this.oppositeColors(x, y, x - 1, y);
+        //base case
+    }
+
+    hasSandwichNorthWest(x,y){
+        if(x-3 < 0 || y-3 < 0){//checks if all nodes exist
+            return false;
+        }
+        return this.getColor(x - 3, y - 3) === this.getColor(x, y) && this.getColor(x - 2, y - 2) === this.getColor(x - 1, y - 1) && this.oppositeColors(x, y, x - 1, y - 1);
+        //base case
+    }
+
+
+
+    hasFiveInARow(x,y){
+        return !!(this.north(x, y, 1) || this.northEast(x, y, 1) || this.east(x, y, 1) || this.southEast(x, y, 1) || this.south(x, y, 1) || this.southWest(x, y, 1) || this.west(x, y, 1) || this.northWest(x, y, 1));
     }
 
     north(x,y,count){
@@ -177,7 +300,9 @@ pente.board[0][1] = 2;
 pente.board[0][2] = 2;
 pente.board[0][3] = 2;
 pente.board[0][4] = 2; //fills the slots
+pente.printBoard(); //should print the board
 pente.updateBoard(); //should print "2 wins the game!"
+
 
 //create a server object:
 
