@@ -5,6 +5,182 @@ var fs = require('fs');
 var formidable = require('formidable');
 // var nodemailer = require('nodemailer');
 
+//Pente board
+/*
+Pente is denoted by a double array with x axis and y axis like so:
+0  .  .  x
+.
+.
+y
+ */
+*/
+ */
+class Pente{
+    constructor(){
+        this.board = [];
+        for(let x = 0; x<19; ++x){
+            let row = [];
+            for(let y = 0; y<19; ++y){
+                row.push(0);
+            }
+            this.board.push(row);
+        }
+    }
+    printBoard() {
+        for (let x = 0; x < 19; ++x) {
+            console.log(this.board[x]);
+        }
+    }
+
+    getBoard(){
+        return this.board;
+    }
+
+    toString(){
+        let boardString = "";
+        for (let x = 0; x < 19; ++x) {
+            boardString += this.board[x].toString() + "\r\n";
+        }
+        return boardString;
+    }
+
+    setBlack (x,y) {
+        this.board[x][y] = 2;
+    }
+
+    setWhite (x,y) {
+        this.board[x][y] = 1;
+    }
+
+    getColor(x,y) {
+        return this.board[x][y];
+    }
+
+    resetBoard(){
+        this.constructor();
+    }
+    updateBoard(){
+        let hasWinner = false;
+        for(let x = 0; x<19; ++x) {
+            if(hasWinner){break;}
+            for (let y = 0; y < 19; ++y) {
+                if(hasWinner){break;}
+                if(this.getColor(x,y) !== 0){
+                    if (this.hasFiveInARow(x,y)) {
+                        hasWinner = true;
+                        console.log(this.getColor(x,y) + " wins the game!");
+                    }
+                }
+            }
+        }
+
+        //check for any 5 in a row
+        //check if it is of the color
+        //count +1
+        //check if it has neighbors that are that color and repeat if it does
+        //if count gets to 5, then declare winner
+        //check for any that could be eaten eaten
+    }
+
+    hasFiveInARow(x,y){
+        if(this.north(x,y,1) || this.northEast(x,y,1) || this.east(x,y,1) || this.southEast(x,y,1) || this.south(x,y,1) || this.southWest(x,y,1) || this.west(x,y,1) || this.northWest(x,y,1)){
+            return true;
+        }
+        return false;
+    }
+
+    north(x,y,count){
+        if(count >= 5){
+            return true;
+        }
+        else if(y-1 >= 0 && this.getColor(x,y) === this.getColor(x,y-1)){//point must exist
+            return this.north(x, y-1, count+1);
+        }
+        return(count >= 5);
+    }
+
+    northEast(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(y-1 >= 0 && x+1 >= 0 && this.getColor(x,y) === this.getColor(x+1,y-1)){//point must exist
+            return this.northEast(x+1, y-1, count+1);
+        }
+        return(count >= 5);
+    }
+
+    east(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(x+1 <= 18 && this.getColor(x,y) === this.getColor(x+1,y)){//point must exist
+            return this.east(x+1, y, count+1);
+        }
+        return(count >= 5);
+    }
+
+    southEast(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(y+1 <= 18 && x+1 <= 18 && this.getColor(x,y) === this.getColor(x+1,y+1)){//point must exist
+            return this.southEast(x+1, y+1, count+1);
+        }
+        return(count >= 5);
+    }
+
+    south(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(y+1 <= 18 && this.getColor(x,y) === this.getColor(x,y+1)){//point must exist
+            return this.south(x, y+1, count+1);
+        }
+        return(count >= 5);
+    }
+
+    southWest(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(y+1 <= 18 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y+1)){//point must exist
+            return this.southWest(x-1, y+1, count+1);
+        }
+        return(count >= 5);
+    }
+
+    west(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y)){//point must exist
+            return this.west(x-1, y, count+1);
+        }
+        return(count >= 5);
+    }
+
+    northWest(x,y,count) {
+        if(count >= 5){
+            return true;
+        }
+        else if(y-1 >= 0 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y-1)){//point must exist
+            return this.northWest(x-1, y-1, count+1);
+        }
+        return(count >= 5);
+    }
+}
+
+//playGame
+let pente = new Pente(); //creates a board
+pente.board[0][0] = 2;
+pente.board[0][1] = 2;
+pente.board[0][2] = 2;
+pente.board[0][3] = 2;
+pente.board[0][4] = 2; //fills the slots
+pente.updateBoard(); //should print "2 wins the game!"
+
+//create a server object:
+
 
 exports.myDateTime = function () {
     return Date();
