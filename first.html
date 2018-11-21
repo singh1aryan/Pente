@@ -6,47 +6,246 @@
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
 
     <style>
-    h1 {
-	text-align: center;
-  }
-  td {
-	width: 100px;
-	height: 100px;
-  }
-  table {
-	border-collapse:collapse;
-	margin: 5px auto;
-  }
-  .vert {
-	border-left: 2px solid black;
-	border-right: 2px solid black;
-  }
-  .hori {
-	border-top: 2px solid black;
-	border-bottom: 2px solid black;
-  }
+#checker-board {
+		width: 520px;
+		height: 520px;
+		background-color: #ffbc00;
+		border: 10px solid rgba(0,0,0,0.65);
+		border-radius: 10px;
+		position: relative;
+	}
+	.square {
+		width: 40px;
+		height: 40px;
+		float: left;
+	}
+	.dark { background-color: rgba(0,0,0,0.25); }
+	.light { background-color: rgba(255,255,255,0.25); }
+	.checker {
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		position: absolute;
+	}
+	.red { background-color: red; }
+	.black { background-color: black; }
+    
     </style>
 </head>
 <body>
 
-    <h1>Tic Tac Toe</h1>
-<table>
-  <tr>
-    <td></td>
-    <td class="vert"></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="hori"></td>
-    <td class="vert hori"></td>
-    <td class="hori"></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td class="vert"></td>
-    <td></td>
-  </tr>
-</table>
+    <div id="checker-board">
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
     
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+    
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+    
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+    
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+    
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+    
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+    
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+
+        
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+        <div class="light square"></div>
+        <div class="dark square"></div>
+    
+        <div class="black checker" id="black-checker-1"></div>
+        <div class="black checker" id="black-checker-2"></div>
+        <div class="black checker" id="black-checker-3"></div>
+        <div class="black checker" id="black-checker-4"></div>
+        <div class="black checker" id="black-checker-5"></div>
+        <div class="black checker" id="black-checker-6"></div>
+        <div class="black checker" id="black-checker-7"></div>
+        <div class="black checker" id="black-checker-8"></div>
+        <div class="black checker" id="black-checker-9"></div>
+        <div class="black checker" id="black-checker-10"></div>
+        <div class="black checker" id="black-checker-11"></div>
+        <div class="black checker" id="black-checker-12"></div>
+        
+        <div class="red checker" id="red-checker-1"></div>
+        <div class="red checker" id="red-checker-2"></div>
+        <div class="red checker" id="red-checker-3"></div>
+        <div class="red checker" id="red-checker-4"></div>
+        <div class="red checker" id="red-checker-5"></div>
+        <div class="red checker" id="red-checker-6"></div>
+        <div class="red checker" id="red-checker-7"></div>
+        <div class="red checker" id="red-checker-8"></div>
+        <div class="red checker" id="red-checker-9"></div>
+        <div class="red checker" id="red-checker-10"></div>
+        <div class="red checker" id="red-checker-11"></div>
+        <div class="red checker" id="red-checker-12"></div>
+    
+        
+      </div>
+
 </body>
 </html>

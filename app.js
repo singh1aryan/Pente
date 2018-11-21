@@ -13,8 +13,7 @@ Pente is denoted by a double array with x axis and y axis like so:
 .
 y
  */
-*/
- */
+/* */
 class Pente{
     constructor(){
         this.board = [];
@@ -68,7 +67,7 @@ class Pente{
                 if(this.getColor(x,y) !== 0){
                     if (this.hasFiveInARow(x,y)) {
                         hasWinner = true;
-                        console.log(this.getColor(x,y) + " wins the game!");
+                        //console.log(this.getColor(x,y) + " wins the game!");
                     }
                 }
             }
