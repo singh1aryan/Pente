@@ -6,14 +6,17 @@ var fs = require('fs');
 var formidable = require('formidable');
 // var nodemailer = require('nodemailer');
 
-//Pente board
+//Yefim Shneyderman and Aryan Singh 2018
 class Pente{
-    //initializes the 19x19 pente board with all 0's to represent blank spaces
+    //initializes the 13x13 pente board with all 0's to represent blank spaces
     constructor(){
+        this.playerTurn = 1;
+        this.hasWinner = false;
+        this.winner = 0;
         this.board = [];
-        for(let x = 0; x<19; ++x){
+        for(let x = 0; x<13; ++x){
             let row = [];
-            for(let y = 0; y<19; ++y){
+            for(let y = 0; y<13; ++y){
                 row.push(0);
             }
             this.board.push(row);
@@ -23,8 +26,8 @@ class Pente{
     //prints to the console such that x:0 and y:0 are on top left
     printBoard() {
         let print = "";
-        for (let x = 0; x < 19; ++x) {
-            for (let y = 0; y < 19; ++y) {
+        for (let x = 0; x < 13; ++x) {
+            for (let y = 0; y < 13; ++y) {
                 print += this.board[y][x] + " ";
             }
             console.log(print);
@@ -41,8 +44,8 @@ class Pente{
     toString(){
         let boardString = "";
         let print = "";
-        for (let x = 0; x < 19; ++x) {
-            for (let y = 0; y < 19; ++y) {
+        for (let x = 0; x < 13; ++x) {
+            for (let y = 0; y < 13; ++y) {
                 print += this.board[y][x] + " ";
             }
             boardString = boardString + print + "\r\n";
@@ -54,6 +57,16 @@ class Pente{
     //removes the specified piece from the board and leaves an empty space
     delete(x,y){
         this.board[x][y] = 0;
+    }
+
+    playPiece(x,y){
+        if(this.playerTurn === 1){
+            this.setWhite(x,y);
+        }
+        else{
+            this.setBlack(x,y);
+        }
+        this.updateBoard();
     }
 
     //sets the specified piece to black
@@ -89,20 +102,35 @@ class Pente{
     //checks for sandwiches and removes the centers
     //updates the player turn information (however it is designed)
     updateBoard(){
-        let hasWinner = false;
-        for(let x = 0; x<19; ++x) {
-            if(hasWinner){break;}
-            for (let y = 0; y < 19; ++y) {
-                if(hasWinner){break;}
+        for(let x = 0; x<13; ++x) {
+            if(this.hasWinner){break;}
+            for (let y = 0; y < 13; ++y) {
+                if(this.hasWinner){break;}
                 if(this.getColor(x,y) !== 0){
                     this.removeSandwich(x,y);
                     if (this.hasFiveInARow(x,y)) {
-                        hasWinner = true;
-                        console.log(this.getColor(x,y) + " wins the game!");
+                        this.hasWinner = true;
+                        this.declareWinner(x,y);
                     }
                 }
             }
         }
+        this.updateTurn();
+    }
+
+    updateTurn(){
+        if(this.playerTurn === 1){
+            this.playerTurn = 2;
+        }
+        else{
+            this.playerTurn = 1;
+        }
+    }
+
+    //declares a winner and ends the game
+    declareWinner(x,y){
+        console.log(this.getColor(x,y) + " wins the game!");
+        this.winner = this.getColor(x,y);
     }
 
     //detects if there are any sandwiches branching off the current piece and then deletes the centers
@@ -142,6 +170,7 @@ class Pente{
         }
     }
 
+    //checks for sandwiches in each cardinal direction
     hasSandwichNorth(x,y){
         if(y-3 < 0){//checks if all nodes exist
             return false;
@@ -159,7 +188,7 @@ class Pente{
     }
 
     hasSandwichEast(x,y){
-        if(x+3 > 18){//checks if all nodes exist
+        if(x+3 > 12){//checks if all nodes exist
             return false;
         }
         return this.getColor(x + 3, y) === this.getColor(x, y) && this.getColor(x + 2, y) === this.getColor(x + 1, y) && this.oppositeColors(x, y, x + 1, y);
@@ -167,7 +196,7 @@ class Pente{
     }
 
     hasSandwichSouthEast(x,y){
-        if(x+3 > 18 || y+3 > 18){//checks if all nodes exist
+        if(x+3 > 12 || y+3 > 12){//checks if all nodes exist
             return false;
         }
         return this.getColor(x + 3, y + 3) === this.getColor(x, y) && this.getColor(x + 2, y + 2) === this.getColor(x + 1, y + 1) && this.oppositeColors(x, y, x + 1, y + 1);
@@ -175,7 +204,7 @@ class Pente{
     }
 
     hasSandwichSouth(x,y){
-        if(y+3 > 18){//checks if all nodes exist
+        if(y+3 > 12){//checks if all nodes exist
             return false;
         }
         return this.getColor(x, y + 3) === this.getColor(x, y) && this.getColor(x, y + 2) === this.getColor(x, y + 1) && this.oppositeColors(x, y, x, y + 1);
@@ -183,7 +212,7 @@ class Pente{
     }
 
     hasSandwichSouthWest(x,y){
-        if(y+3 > 18 || x-3 < 0){//checks if all nodes exist
+        if(y+3 > 12 || x-3 < 0){//checks if all nodes exist
             return false;
         }
         return this.getColor(x - 3, y + 3) === this.getColor(x, y) && this.getColor(x - 2, y + 2) === this.getColor(x - 1, y + 1) && this.oppositeColors(x, y, x - 1, y + 1);
@@ -207,11 +236,12 @@ class Pente{
     }
 
 
-
+    //check for 5 in a row in any cardinal direction
     hasFiveInARow(x,y){
         return !!(this.north(x, y, 1) || this.northEast(x, y, 1) || this.east(x, y, 1) || this.southEast(x, y, 1) || this.south(x, y, 1) || this.southWest(x, y, 1) || this.west(x, y, 1) || this.northWest(x, y, 1));
     }
 
+    //checks for 5 in a row at each cardinal direction
     north(x,y,count){
         if(count >= 5){
             return true;
@@ -236,7 +266,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(x+1 <= 18 && this.getColor(x,y) === this.getColor(x+1,y)){//point must exist
+        else if(x+1 <= 12 && this.getColor(x,y) === this.getColor(x+1,y)){//point must exist
             return this.east(x+1, y, count+1);
         }
         return(count >= 5);
@@ -246,7 +276,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y+1 <= 18 && x+1 <= 18 && this.getColor(x,y) === this.getColor(x+1,y+1)){//point must exist
+        else if(y+1 <= 12 && x+1 <= 12 && this.getColor(x,y) === this.getColor(x+1,y+1)){//point must exist
             return this.southEast(x+1, y+1, count+1);
         }
         return(count >= 5);
@@ -256,7 +286,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y+1 <= 18 && this.getColor(x,y) === this.getColor(x,y+1)){//point must exist
+        else if(y+1 <= 12 && this.getColor(x,y) === this.getColor(x,y+1)){//point must exist
             return this.south(x, y+1, count+1);
         }
         return(count >= 5);
@@ -266,7 +296,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y+1 <= 18 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y+1)){//point must exist
+        else if(y+1 <= 12 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y+1)){//point must exist
             return this.southWest(x-1, y+1, count+1);
         }
         return(count >= 5);
@@ -295,13 +325,19 @@ class Pente{
 
 //playGame
 let pente = new Pente(); //creates a board
-pente.board[0][0] = 2;
-pente.board[0][1] = 2;
-pente.board[0][2] = 2;
-pente.board[0][3] = 2;
-pente.board[0][4] = 2; //fills the slots
+//call playPiece on the coordinates from (0-12, 0-12)
+//playPiece will alternate from player 1 to 2 (player 1 goes first)
+//
+pente.playPiece(0,0); //fills the slots
+pente.playPiece(1,1);
+pente.playPiece(1,0);
+pente.playPiece(2,2);
+pente.playPiece(2,0);
+pente.playPiece(3,3);
+pente.playPiece(3,0);
+pente.playPiece(4,4);
+pente.playPiece(4,0)
 pente.printBoard(); //should print the board
-pente.updateBoard(); //should print "2 wins the game!"
 
 
 //create a server object:
