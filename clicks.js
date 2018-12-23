@@ -1,6 +1,6 @@
 let click = false;
 function buttonclick(){
-    var property = document.getElementById('btn01');
+    var property = document.getElementById('btn0,0');
     if(!click){
         property.style.backgroundColor = '#FF0000'
         click = true;
@@ -10,24 +10,30 @@ function buttonclick(){
         click = false;
     }
 }
-function buttonclick(){
-    var property = document.getElementById('btn01');
-    if(!click){
-        property.style.backgroundColor = '#FF0000'
-        click = true;
-    }
-    else{
-        property.style.backgroundColor = '#000000'
-        click = false;
-    }
-}
+// function buttonclick(){
+//     var property = document.getElementById('btn0,1');
+//     if(!click){
+//         property.style.backgroundColor = '#FF0000'
+//         click = true;
+//     }
+//     else{
+//         property.style.backgroundColor = '#000000'
+//         click = false;
+//     }
+// }
 let board_array = [];
 for(let i=0;i<13;++i){
     let c= [];
     for(let j=0;j<13;++j){
-        c.push(document.getElementById('btn0'+j));
+        c.push(document.getElementById('btn' + i + ',' + j));
     }
     board_array.push(c);
+}
+
+for(){
+    for(){
+        
+    }
 }
 
 
