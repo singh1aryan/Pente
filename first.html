@@ -6,47 +6,232 @@
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
 
     <style>
-    h1 {
-	text-align: center;
-  }
-  td {
-	width: 100px;
-	height: 100px;
-  }
-  table {
-	border-collapse:collapse;
-	margin: 5px auto;
-  }
-  .vert {
-	border-left: 2px solid black;
-	border-right: 2px solid black;
-  }
-  .hori {
-	border-top: 2px solid black;
-	border-bottom: 2px solid black;
-  }
+#checker-board {
+		width: 520px;
+		height: 520px;
+		background-color: #ffbc00;
+		border: 10px solid rgba(0,0,0,0.65);
+		border-radius: 10px;
+		position: relative;
+	}
+	.square {
+		width: 40px;
+		height: 40px;
+		float: left;
+	}
+	.dark { background-color: rgba(0,0,0,0.25); }
+	.light { background-color: rgba(255,255,255,0.25); }
+	.checker {
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		position: absolute;
+	}
+	.red { background-color: red; }
+	.black { background-color: black; }
+    
     </style>
 </head>
 <body>
 
-    <h1>Tic Tac Toe</h1>
-<table>
-  <tr>
-    <td></td>
-    <td class="vert"></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="hori"></td>
-    <td class="vert hori"></td>
-    <td class="hori"></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td class="vert"></td>
-    <td></td>
-  </tr>
-</table>
+    <div id="checker-board" >
+        <button class="dark square" id="btn0,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn0,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn0,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn0,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn0,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn0,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn0,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn0,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn0,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn0,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn0,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn0,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn0,12" onclick="buttonclick(id)"></button>
     
+        <button class="light square" id="btn1,0" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn1,1" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn1,2" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn1,3" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn1,4" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn1,5" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn1,6" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn1,7" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn1,8" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn1,9" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn1,10" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn1,11" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn1,12" onclick="buttonclick(id)"></button>
+    
+        <button class="dark square" id="btn2,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn2,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn2,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn2,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn2,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn2,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn2,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn2,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn2,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn2,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn2,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn2,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn2,12" onclick="buttonclick(id)"></button>
+    
+        <button class="light square" id="btn3,0" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn3,1" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn3,2" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn3,3" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn3,4" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn3,5" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn3,6" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn3,7" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn3,8" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn3,9" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn3,10" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn3,11" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn3,12" onclick="buttonclick(id)"></button>
+    
+        <button class="dark square" id="btn4,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn4,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn4,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn4,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn4,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn4,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn4,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn4,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn4,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn4,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn4,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn4,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn4,12" onclick="buttonclick(id)"></button>
+    
+        <button class="light square" id="btn5,0" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn5,1" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn5,2" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn5,3" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn5,4" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn5,5" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn5,6" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn5,7" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn5,8" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn5,9" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn5,10" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn5,11" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn5,12" onclick="buttonclick(id)"></button>
+    
+        <button class="dark square" id="btn6,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn6,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn6,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn6,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn6,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn6,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn6,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn6,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn6,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn6,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn6,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn6,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn6,12" onclick="buttonclick(id)"></button>
+    
+    
+        <button class="light square" id="btn7,0" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn7,1" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn7,2" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn7,3" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn7,4" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn7,5" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn7,6" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn7,7" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn7,8" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn7,9" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn7,10" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn7,11" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn7,12" onclick="buttonclick(id)"></button>
+        
+        <button class="dark square" id="btn8,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn8,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn8,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn8,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn8,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn8,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn8,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn8,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn8,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn8,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn8,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn8,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn8,12" onclick="buttonclick(id)"></button>
+    
+
+        <button class="light square" id="btn9,0" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn9,1" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn9,2" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn9,3" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn9,4" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn9,5" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn9,6" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn9,7" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn9,8" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn9,9" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn9,10" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn9,11" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn9,12" onclick="buttonclick(id)"></button>
+        
+        <button class="dark square" id="btn10,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn10,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn10,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn10,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn10,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn10,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn10,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn10,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn10,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn10,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn10,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn10,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn10,12" onclick="buttonclick(id)"></button>
+    
+
+        <button class="light square" id="btn11,0" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn11,1" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn11,2" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn11,3" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn11,4" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn11,5" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn11,6" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn11,7" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn11,8" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn11,9" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn11,10" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn11,11" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn11,12" onclick="buttonclick(id)"></button>
+
+        <button class="dark square" id="btn12,0" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn12,1" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn12,2" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn12,3" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn12,4" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn12,5" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn12,6" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn12,7" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn12,8" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn12,9" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn12,10" onclick="buttonclick(id)"></button>
+        <button class="light square" id="btn12,11" onclick="buttonclick(id)"></button>
+        <button class="dark square" id="btn12,12" onclick="buttonclick(id)"></button>
+        
+      </div>
+      <!-- <button class="dark square" id="btn12,12" onclick="buttonclick1(id)"></button> -->
+      <script type="text/javascript" src="clicks.js"></script>
 </body>
 </html>
+
+<!-- git status
+git add . -- add
+git diff
+git diff HEAD
+git commit -m message
+git push origin master
+git pull
+git checkout -b branchname
+-->

@@ -1,33 +1,32 @@
 //Yefim Shneyderman and Aryan Singh 2018
-// var dt = require('./app');
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
-var formidable = require('formidable');
-// var nodemailer = require('nodemailer');
-
-//Yefim Shneyderman and Aryan Singh 2018
 class Pente{
-    //initializes the 13x13 pente board with all 0's to represent blank spaces
+    //initializes the board with all 0's to represent blank spaces
     constructor(){
         this.playerTurn = 1;
         this.hasWinner = false;
         this.winner = 0;
         this.board = [];
-        for(let x = 0; x<13; ++x){
+        this.boardSize = 13;
+        for(let x = 0; x<this.boardSize; ++x){
             let row = [];
-            for(let y = 0; y<13; ++y){
+            for(let y = 0; y<this.boardSize; ++y){
                 row.push(0);
             }
             this.board.push(row);
         }
+        this.initialize();
+    }
+
+    //prints a friendly message at the start of the round
+    initialize(){
+        console.log("Welcome to Pente!");
     }
 
     //prints to the console such that x:0 and y:0 are on top left
     printBoard() {
         let print = "";
-        for (let x = 0; x < 13; ++x) {
-            for (let y = 0; y < 13; ++y) {
+        for (let x = 0; x < this.boardSize; ++x) {
+            for (let y = 0; y < this.boardSize; ++y) {
                 print += this.board[y][x] + " ";
             }
             console.log(print);
@@ -44,8 +43,8 @@ class Pente{
     toString(){
         let boardString = "";
         let print = "";
-        for (let x = 0; x < 13; ++x) {
-            for (let y = 0; y < 13; ++y) {
+        for (let x = 0; x < this.boardSize; ++x) {
+            for (let y = 0; y < this.boardSize; ++y) {
                 print += this.board[y][x] + " ";
             }
             boardString = boardString + print + "\r\n";
@@ -57,16 +56,32 @@ class Pente{
     //removes the specified piece from the board and leaves an empty space
     delete(x,y){
         this.board[x][y] = 0;
+        board[x][y].style.backgroundColor = '#D3D3D3'
     }
 
-    playPiece(x,y){
-        if(this.playerTurn === 1){
-            this.setWhite(x,y);
+    //plays a piece at the correct spot and calls updateBoard to update player turn and update board
+    //only does so if place is not occupied by any other piece
+    playPiece(x,y) {
+        if (!this.isOccupied(x, y)) {
+            if (this.playerTurn === 1) {
+                this.setWhite(x, y);
+                board[x][y].style.backgroundColor = '#FFFFFF'
+            }
+            else {
+                this.setBlack(x, y);
+                board[x][y].style.backgroundColor = '#000000'
+            }
+            this.updateBoard();
         }
         else{
-            this.setBlack(x,y);
+            console.log("That square is already occupied.");
         }
-        this.updateBoard();
+    }
+
+    //returns true if (x,y) is occupied by player 1 or 2
+    //returns false if the spot is empty and a new piece can be played there
+    isOccupied(x,y){
+        return(this.getColor(x,y) === 1 || this.getColor(x,y) === 2);
     }
 
     //sets the specified piece to black
@@ -102,9 +117,9 @@ class Pente{
     //checks for sandwiches and removes the centers
     //updates the player turn information (however it is designed)
     updateBoard(){
-        for(let x = 0; x<13; ++x) {
+        for(let x = 0; x<this.boardSize; ++x) {
             if(this.hasWinner){break;}
-            for (let y = 0; y < 13; ++y) {
+            for (let y = 0; y < this.boardSize; ++y) {
                 if(this.hasWinner){break;}
                 if(this.getColor(x,y) !== 0){
                     this.removeSandwich(x,y);
@@ -188,7 +203,7 @@ class Pente{
     }
 
     hasSandwichEast(x,y){
-        if(x+3 > 12){//checks if all nodes exist
+        if(x+3 > this.boardSize-1){//checks if all nodes exist
             return false;
         }
         return this.getColor(x + 3, y) === this.getColor(x, y) && this.getColor(x + 2, y) === this.getColor(x + 1, y) && this.oppositeColors(x, y, x + 1, y);
@@ -196,7 +211,7 @@ class Pente{
     }
 
     hasSandwichSouthEast(x,y){
-        if(x+3 > 12 || y+3 > 12){//checks if all nodes exist
+        if(x+3 > this.boardSize-1 || y+3 > this.boardSize-1){//checks if all nodes exist
             return false;
         }
         return this.getColor(x + 3, y + 3) === this.getColor(x, y) && this.getColor(x + 2, y + 2) === this.getColor(x + 1, y + 1) && this.oppositeColors(x, y, x + 1, y + 1);
@@ -204,7 +219,7 @@ class Pente{
     }
 
     hasSandwichSouth(x,y){
-        if(y+3 > 12){//checks if all nodes exist
+        if(y+3 > this.boardSize-1){//checks if all nodes exist
             return false;
         }
         return this.getColor(x, y + 3) === this.getColor(x, y) && this.getColor(x, y + 2) === this.getColor(x, y + 1) && this.oppositeColors(x, y, x, y + 1);
@@ -212,7 +227,7 @@ class Pente{
     }
 
     hasSandwichSouthWest(x,y){
-        if(y+3 > 12 || x-3 < 0){//checks if all nodes exist
+        if(y+3 > this.boardSize-1 || x-3 < 0){//checks if all nodes exist
             return false;
         }
         return this.getColor(x - 3, y + 3) === this.getColor(x, y) && this.getColor(x - 2, y + 2) === this.getColor(x - 1, y + 1) && this.oppositeColors(x, y, x - 1, y + 1);
@@ -266,7 +281,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(x+1 <= 12 && this.getColor(x,y) === this.getColor(x+1,y)){//point must exist
+        else if(x+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x+1,y)){//point must exist
             return this.east(x+1, y, count+1);
         }
         return(count >= 5);
@@ -276,7 +291,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y+1 <= 12 && x+1 <= 12 && this.getColor(x,y) === this.getColor(x+1,y+1)){//point must exist
+        else if(y+1 <= this.boardSize-1 && x+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x+1,y+1)){//point must exist
             return this.southEast(x+1, y+1, count+1);
         }
         return(count >= 5);
@@ -286,7 +301,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y+1 <= 12 && this.getColor(x,y) === this.getColor(x,y+1)){//point must exist
+        else if(y+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x,y+1)){//point must exist
             return this.south(x, y+1, count+1);
         }
         return(count >= 5);
@@ -296,7 +311,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y+1 <= 12 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y+1)){//point must exist
+        else if(y+1 <= this.boardSize-1 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y+1)){//point must exist
             return this.southWest(x-1, y+1, count+1);
         }
         return(count >= 5);
@@ -323,211 +338,24 @@ class Pente{
     }
 }
 
-//playGame
-let pente = new Pente(); //creates a board
-//call playPiece on the coordinates from (0-12, 0-12)
-//playPiece will alternate from player 1 to 2 (player 1 goes first)
-//
-pente.playPiece(0,0); //fills the slots
-pente.playPiece(1,1);
-pente.playPiece(1,0);
-pente.playPiece(2,2);
-pente.playPiece(2,0);
-pente.playPiece(3,3);
-pente.playPiece(3,0);
-pente.playPiece(4,4);
-pente.playPiece(4,0)
-pente.printBoard(); //should print the board
+    let board = []
+    let pente = new Pente();
+
+    //initializes board
+    for(let i=0;i<13;++i){
+        let c= [];
+        for(let j=0;j<13;++j){
+            document.getElementById('btn' + i + ',' + j).style.backgroundColor = '#D3D3D3';
+            c.push(document.getElementById('btn' + i + ',' + j));
+        }
+        board.push(c);
+    }
+
+    function buttonclick(id){
+        let splitArray = id.split(',');
+        let y = splitArray[1];
+        let x = splitArray[0].substring(3, splitArray[0].length);
+        pente.playPiece(x,y);
+    }
 
 
-//create a server object:
-
-
-exports.myDateTime = function () {
-    return Date();
-};
-
-// http.createServer(function (req, res) {
-//     res.writeHead(200, {'Content-Type': 'text/html'});
-//     res.write("The date and time are currently: " + dt.myDateTime());
-//     res.write(req.url);
-//     res.end();
-// }).listen(8080);
-
-// var http = require('http');
-
-// create a server object:
-// http.createServer(function (req, res) {
-//   res.write('Hello World!'); //write a response to the client
-//   res.end(); //end the response
-// }).listen(8080); //the server object listens on port 8080
-
-// var url = require('url');
-
-// this is parsing the url into year and the month
-// so if the url has it, then it will show that
-// http.createServer(function (req, res) {
-//   res.writeHead(200, {'Content-Type': 'text/html'});
-//   var q = url.parse(req.url, true).query;
-//   var txt = q.year + " " + q.month;
-//   res.end(txt);
-// }).listen(8080);
-
-/*
-CREATING THE SERVER USING THE READ FILE FUNCTION
-*/
-// http.createServer(function (req, res) {
-//   fs.readFile('first.html', function(err, data) {
-//     res.writeHead(200, {'Content-Type': 'text/html'});
-//     res.write(html);
-//     res.end();
-//   });
-// }).listen(8080);
-
-fs.readFile('./first.html', function (err, html) {
-    if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(8080);
-});
-
-// new file which has the content which you give here
-// fs.appendFile('mynewfile1.txt', 'Hello content!', function (err) {
-//     if (err) throw err;
-//     console.log('Saved2!');
-//   });
-  
-//   // this is a new file for writing
-// fs.open('mynewfile2.txt', 'w', function (err, file) {
-//     if (err) throw err;
-//     console.log('Saved2!');
-//   });
-
-//   fs.unlink('mynewfile1.txt', function (err) {
-//     if (err) throw err;
-//     console.log('File deleted!');
-//   });
-  
-//   fs.unlink('mynewfile2.txt', function (err) {
-//     if (err) throw err;
-//     console.log('File deleted!');
-//   });
-
-var adr = 'http://localhost:8080/default.htm?year=2017&month=february';
-var q = url.parse(adr, true);
-
-// console.log(q.host); //returns 'localhost:8080'
-// console.log(q.pathname); //returns '/default.htm'
-// console.log(q.search); //returns '?year=2017&month=february'
-
-// var qdata = q.query; //returns an object: { year: 2017, month: 'february' }
-// console.log(qdata.month); //returns 'february'
-
-// !-- ---------------------------!
-//  THIS IS FOR WINTER AND SUMMER TOGGLE
-// http.createServer(function (req, res) {
-//     var q = url.parse(req.url, true);
-//     var filename = "." + q.pathname;
-//     fs.readFile(filename, function(err, data) {
-//       if (err) {
-//         res.writeHead(404, {'Content-Type': 'text/html'});
-//         return res.end("404 Not Found");
-//       }  
-//       res.writeHead(200, {'Content-Type': 'text/html'});
-//       res.write(data);
-//       return res.end();
-//     });
-//   }).listen(8080);
-
-//   var uc = require('upper-case');
-//   http.createServer(function (req, res) {
-//     res.writeHead(200, {'Content-Type': 'text/html'});
-//     res.write(uc("Hello World!"));
-//     res.end();
-// }).listen(8080);
-
-// var events = require('events');
-// var eventEmitter = new events.EventEmitter();
-
-// //Create an event handler:
-// var myEventHandler = function () {
-//   console.log('I hear a scream!');
-// }
-
-// //Assign the eventhandler to an event:
-// eventEmitter.on('scream', myEventHandler);
-
-// //Fire the 'scream' event:
-// eventEmitter.emit('scream');
-// http.createServer(function (req, res) {
-//     res.writeHead(200, {'Content-Type': 'text/html'});
-//     res.write('<form action="fileupload" method="post" enctype="multipart/form-data">');
-//     res.write('<input type="file" name="filetoupload"><br>');
-//     res.write('<input type="submit">');
-//     res.write('</form>');
-//     return res.end();
-//   }).listen(8080);
-
-// TO MOVE THE FILE TO YOUR PLACE OF CHOICE IN THE NEW PATH
-// http.createServer(function (req, res) {
-//     if (req.url == '/fileupload') {
-//       var form = new formidable.IncomingForm();
-//       form.parse(req, function (err, fields, files) {
-//         var oldpath = files.filetoupload.path;
-//         var newpath = 'C:/Users/Aryan/' + files.filetoupload.name;
-//         fs.rename(oldpath, newpath, function (err) {
-//           if (err) throw err;
-//           res.write('File uploaded and moved!');
-//           res.end();
-//         });
-//    });
-//     } else {
-//       res.writeHead(200, {'Content-Type': 'text/html'});
-//       res.write('<form action="fileupload" method="post" enctype="multipart/form-data">');
-//       res.write('<input type="file" name="filetoupload"><br>');
-//       res.write('<input type="submit">');
-//       res.write('</form>');
-//       return res.end();
-//     }
-//   }).listen(8080);
-
-// var transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'aspiringaryan@gmail.com',
-//     pass: 'aryan@fbd'
-//   }
-// });
-
-// var mailOptions = {
-//   from: 'aspiringaryan@gmail.com',
-//   to: 'aryansingh@umass.edu',
-//   subject: 'Sending Email using Node.js',
-//   text: 'That was easy!'
-// };
-
-// transporter.sendMail(mailOptions, function(error, info){
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log('Email sent: ' + info.response);
-//   }
-// });
-
-// http.createServer(function (req, res) {
-//         var q = url.parse(req.url, true);
-//         var filename = "." + q.pathname;
-//         fs.readFile(filename, function(err, data) {
-//           if (err) {
-//             res.writeHead(404, {'Content-Type': 'text/html'});
-//             return res.end("404 Not Found");
-//           }  
-//           res.writeHead(200, {'Content-Type': 'text/html'});
-//           res.write(data);
-//           return res.end();
-//         });
-//       }).listen(8080);
