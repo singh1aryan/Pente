@@ -271,7 +271,7 @@ class Pente{
         if(count >= 5){
             return true;
         }
-        else if(y-1 >= 0 && x+1 >= 0 && this.getColor(x,y) === this.getColor(x+1,y-1)){//point must exist
+        else if(y-1 >= 0 && x+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x+1,y-1)){//point must exist
             return this.northEast(x+1, y-1, count+1);
         }
         return(count >= 5);
