@@ -1,6 +1,14 @@
 let click = false;
-function buttonclick(){
-    var property = document.getElementById('btn0,0');
+function buttonclick(id){
+    
+    // the id is of the type btn0,2
+
+    // let a = id.split(',');
+    // let first = a[0];
+    // let second = a[1];
+    // first = first.substring(3,first.length());
+
+    var property = document.getElementById(id);
     if(!click){
         property.style.backgroundColor = '#FF0000'
         click = true;
@@ -35,7 +43,7 @@ for(let i=0;i<13;++i){
         
 //     }
 // }
-
+// console.log(board_array[3][4]);
 
 
 // make 12 arrays of the columns
