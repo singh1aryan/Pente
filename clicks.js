@@ -133,9 +133,16 @@ class Pente{
                         this.hasWinner = true;
                         this.declareWinner(2);
                     }
-                    else if (this.hasFiveInARow(x,y)) {
+                    //if has 5 in a row
+                    else if (this.hasSumInARow(x,y,5)) {
                         this.hasWinner = true;
                         this.declareWinner(x,y);
+                    }
+                    else if (this.hasSumInARow(x,y,4)) {
+                        this.declareTessera(x,y);
+                    }
+                    else if (this.hasSumInARow(x,y,3)) {
+                        this.declareTria(x,y);
                     }
                 }
             }
@@ -162,6 +169,14 @@ class Pente{
     declareWinner(num){
         console.log(num + " wins the game!");
         this.winner = num;
+    }
+
+    declareTessera(x,y){
+        console.log(this.getColor(x,y) + " has Tessera!");
+    }
+
+    declareTria(x,y){
+        console.log(this.getColor(x,y) + " has Tria!");
     }
 
     //detects if there are any sandwiches branching off the current piece and then deletes the centers
@@ -314,90 +329,90 @@ class Pente{
     }
 
 
-    //check for 5 in a row in any cardinal direction
-    hasFiveInARow(x,y){
-        return !!(this.north(x, y, 1) || this.northEast(x, y, 1) || this.east(x, y, 1) || this.southEast(x, y, 1) || this.south(x, y, 1) || this.southWest(x, y, 1) || this.west(x, y, 1) || this.northWest(x, y, 1));
+    //check for targetCount in a row in any cardinal direction
+    hasSumInARow(x,y,targetCount){
+        return (this.north(x, y, 1,targetCount) || this.northEast(x, y, 1,targetCount) || this.east(x, y, 1,targetCount) || this.southEast(x, y, 1,targetCount) || this.south(x, y, 1,targetCount) || this.southWest(x, y, 1,targetCount) || this.west(x, y, 1,targetCount) || this.northWest(x, y, 1,targetCount));
     }
 
-    //checks for 5 in a row at each cardinal direction
-    north(x,y,count){
-        if(count >= 5){
+    //checks for targetCount in a row at each cardinal direction
+    north(x,y,count,targetCount){
+        if(count >= targetCount){
             return true;
         }
         else if(y-1 >= 0 && this.getColor(x,y) === this.getColor(x,y-1)){//point must exist
-            return this.north(x, y-1, count+1);
+            return this.north(x, y-1, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    northEast(x,y,count) {
-        if(count >= 5){
+    northEast(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(y-1 >= 0 && x+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x+1,y-1)){//point must exist
-            return this.northEast(x+1, y-1, count+1);
+            return this.northEast(x+1, y-1, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    east(x,y,count) {
-        if(count >= 5){
+    east(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(x+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x+1,y)){//point must exist
-            return this.east(x+1, y, count+1);
+            return this.east(x+1, y, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    southEast(x,y,count) {
-        if(count >= 5){
+    southEast(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(y+1 <= this.boardSize-1 && x+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x+1,y+1)){//point must exist
-            return this.southEast(x+1, y+1, count+1);
+            return this.southEast(x+1, y+1, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    south(x,y,count) {
-        if(count >= 5){
+    south(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(y+1 <= this.boardSize-1 && this.getColor(x,y) === this.getColor(x,y+1)){//point must exist
-            return this.south(x, y+1, count+1);
+            return this.south(x, y+1, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    southWest(x,y,count) {
-        if(count >= 5){
+    southWest(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(y+1 <= this.boardSize-1 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y+1)){//point must exist
-            return this.southWest(x-1, y+1, count+1);
+            return this.southWest(x-1, y+1, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    west(x,y,count) {
-        if(count >= 5){
+    west(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y)){//point must exist
-            return this.west(x-1, y, count+1);
+            return this.west(x-1, y, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 
-    northWest(x,y,count) {
-        if(count >= 5){
+    northWest(x,y,count,targetCount) {
+        if(count >= targetCount){
             return true;
         }
         else if(y-1 >= 0 && x-1 >= 0 && this.getColor(x,y) === this.getColor(x-1,y-1)){//point must exist
-            return this.northWest(x-1, y-1, count+1);
+            return this.northWest(x-1, y-1, count+1, targetCount);
         }
-        return(count >= 5);
+        return(count >= targetCount);
     }
 }
 
