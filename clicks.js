@@ -2,6 +2,11 @@
 class Pente{
     //initializes the board with all 0's to represent blank spaces
     constructor(){
+        this.initialize();
+    }
+
+    //prints a friendly message at the start of the round
+    initialize(){
         this.playerTurn = 1;
         this.hasWinner = false;
         this.winner = 0;
@@ -16,11 +21,6 @@ class Pente{
             }
             this.board.push(row);
         }
-        this.initialize();
-    }
-
-    //prints a friendly message at the start of the round
-    initialize(){
         console.log("Welcome to Pente!");
     }
 
@@ -111,7 +111,7 @@ class Pente{
 
     //resets the game board to all blank
     resetBoard(){
-        this.constructor();
+        this.initialize();
     }
 
     //method must be called after every move
