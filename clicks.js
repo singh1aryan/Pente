@@ -19,6 +19,12 @@ class Pente{
 
     //prints a friendly message at the start of the round
     initialize(){
+        for(let x = 0; x<this.boardSize; ++x){
+            for(let y = 0; y<this.boardSize; ++y){
+                row.push(0);
+            }
+            this.board.push(row);
+        }
         console.log("Welcome to Pente!");
     }
 
@@ -126,6 +132,7 @@ class Pente{
                     if (this.hasFiveInARow(x,y)) {
                         this.hasWinner = true;
                         this.declareWinner(x,y);
+                        // finishPlaying();
                     }
                 }
             }
@@ -133,6 +140,14 @@ class Pente{
         this.updateTurn();
     }
 
+    finishPlaying(){
+        // disable all the buttons
+        for(let x=0;x<this.boardSize;++x){
+            for(let y=0;y<this.boardSize;++y){
+
+            }
+        }
+    }
     updateTurn(){
         if(this.playerTurn === 1){
             this.playerTurn = 2;
@@ -146,6 +161,15 @@ class Pente{
     declareWinner(x,y){
         console.log(this.getColor(x,y) + " wins the game!");
         this.winner = this.getColor(x,y);
+        // if(this.winner==0){
+        //     alert("It's a tie, reset the board to play again")
+        // }
+        // else if(this.winner==1){
+        //     alert("Black Wins !!!");
+        // }
+        // else{
+        //     alert("White Wins !!!");
+        // }
     }
 
     //detects if there are any sandwiches branching off the current piece and then deletes the centers
@@ -355,5 +379,11 @@ class Pente{
         let splitArray = id.split(',');
         let y = splitArray[1];
         let x = splitArray[0].substring(3, splitArray[0].length);
-        pente.playPiece(x,y);
+        if(!pente.hasWinner) {
+            pente.playPiece(x, y);
+        }
+    }
+
+    function reset(id){
+        
     }

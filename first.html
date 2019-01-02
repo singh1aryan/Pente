@@ -3,9 +3,9 @@
 <head>
     <title>Pente </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 
-    <style>
+    <!-- <style>
 #checker-board {
 		width: 520px;
 		height: 520px;
@@ -30,7 +30,7 @@
 	.red { background-color: red; }
 	.black { background-color: black; }
     
-    </style>
+    </style> -->
 </head>
 <body>
 
@@ -133,7 +133,6 @@
         <button class="light square" id="btn6,11" onclick="buttonclick(id)"></button>
         <button class="dark square" id="btn6,12" onclick="buttonclick(id)"></button>
     
-    
         <button class="light square" id="btn7,0" onclick="buttonclick(id)"></button>
         <button class="dark square" id="btn7,1" onclick="buttonclick(id)"></button>
         <button class="light square" id="btn7,2" onclick="buttonclick(id)"></button>
@@ -162,7 +161,6 @@
         <button class="light square" id="btn8,11" onclick="buttonclick(id)"></button>
         <button class="dark square" id="btn8,12" onclick="buttonclick(id)"></button>
     
-
         <button class="light square" id="btn9,0" onclick="buttonclick(id)"></button>
         <button class="dark square" id="btn9,1" onclick="buttonclick(id)"></button>
         <button class="light square" id="btn9,2" onclick="buttonclick(id)"></button>
@@ -220,8 +218,8 @@
         <button class="light square" id="btn12,11" onclick="buttonclick(id)"></button>
         <button class="dark square" id="btn12,12" onclick="buttonclick(id)"></button>
     
-        <!-- <div class="black checker" id="black-checker-1"></div> -->
-        <!-- <div class="black checker" id="black-checker-2"></div>
+        <!-- <div class="black checker" id="black-checker-1"></div>
+        <div class="black checker" id="black-checker-2"></div>
         <div class="black checker" id="black-checker-3"></div>
         <div class="black checker" id="black-checker-4"></div>
         <div class="black checker" id="black-checker-5"></div>
@@ -248,6 +246,11 @@
     
         
       </div>
+
+      <div id="reset">
+        <button class="dark square" onclick="reset(id)">Reset</button>
+      </div>
+
       <!-- <button class="dark square" id="btn12,12" onclick="buttonclick1(id)"></button> -->
       <script type="text/javascript" src="clicks.js"></script>
 </body>
