@@ -418,7 +418,9 @@ class Pente{
         let splitArray = id.split(',');
         let y = splitArray[1];
         let x = splitArray[0].substring(3, splitArray[0].length);
-        pente.playPiece(x,y);
+        if(!pente.hasWinner) {
+            pente.playPiece(x, y);
+        }
     }
 
 
