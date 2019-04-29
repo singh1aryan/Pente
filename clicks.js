@@ -21,6 +21,12 @@ class Pente{
             }
             this.board.push(row);
         }
+        for(let i=0;i<13;++i){
+            for(let j=0;j<13;++j){
+                document.getElementById('btn' + i + ',' + j).style.backgroundColor = '#D3D3D3';
+            }
+        }
+    
         console.log("Welcome to Pente!");
     }
 
@@ -162,12 +168,19 @@ class Pente{
     //declares a winner and ends the game
     declareWinner(x,y){
         console.log(this.getColor(x,y) + " wins the game!");
+        alert("Winner winner chicken dinner");
         this.winner = this.getColor(x,y);
     }
 
     //declares a winner and ends the game
     declareWinner(num){
         console.log(num + " wins the game!");
+        if(num==1){
+            alert("Winner winner chicken dinner - White");
+
+        }else{
+            alert("Winner winner chicken dinner - Black");
+        }
         this.winner = num;
     }
 
@@ -436,4 +449,8 @@ class Pente{
         if(!pente.hasWinner) {
             pente.playPiece(x, y);
         }
+    }
+
+    function reset(){
+        pente.resetBoard();
     }

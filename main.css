@@ -1,5 +1,5 @@
 #checker-board {
-  /* margin: auto; */
+  margin: auto;
   width: 520px;
   height: 520px;
   background-color: #ffbc00;
@@ -22,4 +22,10 @@
 }
 .red { background-color: red; }
 .black { background-color: black; }
-  
+
+.reset{
+  margin-left: 46.4%;
+  margin-top: 20px;
+  width: 100px;
+  border: 3px solid green;
+}
